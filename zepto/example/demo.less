@@ -1,0 +1,38 @@
+/*联想搜索*/
+.suggest-wrap {
+    position:relative;
+    .suggest{
+        position:absolute;z-index:5;clear:both;display:none;width:100%;overflow:hidden;
+        text-align: center;
+        background:#EEE;
+        padding-bottom: 10px;
+    }
+    .suggest .list{
+        -webkit-tap-highlight-color: rgba(255,255,255,0);
+        padding-bottom:26px;-webkit-border-radius:2px;border-radius: 2px;
+        text-align: left;
+    }
+    .suggest .list li{
+        height:40px;line-height:40px;text-indent:10px;
+        border-bottom:solid 1px #DDD;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        position:relative;
+        div.addition {
+            position:absolute;
+            right: 0;
+            top: 7px;
+            border-left: solid 1px #D7D7D7;
+            width: 39px;
+            height: 26px;
+            background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAA9SURBVHjaYpw5cyYDDvAfic2ITQETAwVgJGpmAeLfUBof+D/4/MwKTQTo+CNaIsHAIzWecYE/UIwTAAQYAMUgB+SOBTVxAAAAAElFTkSuQmCC);
+            background-repeat:no-repeat;
+            background-position: center center;
+        }
+    }
+    .suggest .close{display:inline-block;bottom:0;}
+    &.expand .suggest{display:block}
+    &.collapse .suggest{display:none;}
+    //.common-search{margin:12px auto 0 auto;}
+}

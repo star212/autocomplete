@@ -1,0 +1,12 @@
+{
+    "family": "ietao",
+    "name" : "utils/autocomplete",
+    "version" : "0.0.6",
+    "spm" : {
+        "alias":{
+            "backbone":"ietao/libs/backbone/0.9.9.3/backbone"
+        },
+        "sources": "http://spm.assets.m.etao.net:8001" ,
+        "output" : [ "autocomplete.js" ]
+    }
+}
