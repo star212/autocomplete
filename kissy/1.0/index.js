@@ -10,8 +10,8 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
     var queue = Queue.singleton;
 	queue.setTimeout = 100;
     
-    console.log("loaded")
-    console.log(queue);
+    //console.log("loaded")
+    //console.log(queue);
     
     //防xss htmlEncode
     var htmlEncode = function(str){
@@ -20,8 +20,7 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
         return div.innerHTML;
     }
 
-    var setting = {
-        id: "J_search",
+    var defaults = {
         ajaxUrl:"http://suggest.taobao.com/sug", //ajax路径
         operator:'.J_autocomplete', //触发搜索文本框
         wrapEl:'.wrap', //内容展示层
@@ -53,19 +52,16 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
      * @constructor
      * @extends Base
      */
-    function autocomplete(opts) {
+    function autocomplete(container,opts) {
 
-        //opts && S.extend(setting, opts);
-        if(opts){
-            for(key in opts) {
-                setting[key] = opts[key];
-            }
-        }
 
 		if (this instanceof autocomplete) {
 
+            this.setting = S.merge(defaults,opts);
+
+            this.container = container = S.one(container || "#J_Search");
 			autocomplete.superclass.constructor.call(this, opts);
-			this.init();
+			this._init();
 
 		} else {
 			return new autocomplete(opts);
@@ -73,10 +69,9 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
     }
     S.extend(autocomplete, Base, /** @lends autocomplete.prototype*/{
         
-        init: function(){
-            var that = this;
-            var els = $(setting.id);
-
+        _init: function(){
+            var that = this,
+            setting = this.setting;
 
             var close = function() {
 
@@ -92,10 +87,10 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
 
             };
 
-            els.each(function(){
+            that.container.each(function(){
 
                     var self = this;
-                    console.log(self);
+                    //console.log(self);
 
 
                     /* 优先请求历史记录 支持数组*/
@@ -123,14 +118,14 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
                                     }
                                 });
                             };
-                            queue.addSync(that.onHisLoad);
+                            queue.addSync(setting.onHisLoad);
 
                             queue.dequeue();
 
                         }
                     }
                     var operator = this.one(setting.operator);
-                    console.log(operator);
+                    //console.log(operator);
                     var $close = self.one(setting.close);
                     //设置文本框的autocomplete
                     operator.attr('autocomplete','off');
@@ -305,7 +300,7 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
                         self.one(setting.childEl).detach('click');
 
                         //点击关闭联想内容
-                        console.log(self.one(setting.close));
+                        //console.log(self.one(setting.close));
                         self.one(setting.close).on("click",function(){
                             var interval = 0;
                             close.call(self);
@@ -352,7 +347,7 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
                     }
                     
                     //添加联想词附加到关键词上的功能
-                    console.log(self.one("ul"));
+                    //console.log(self.one("ul"));
                     setting.addition && self.one("ul").delegate("touchstart click", "div" + setting.additionClass,function(e){
                         var $this = $(e.target);
                         operator[0].focus();
@@ -405,8 +400,6 @@ KISSY.add(function (S, Node,Base,IO,Queue) {
         hisList : [],
         //用于设置历史数据的索引
         hisIndex: 0,
-        //历史加载完成
-        onHisLoad: setting.onHisLoad,
         //是否打开状态
         isOpen: function(i){
             return that.eq(i).hasClass("expand");

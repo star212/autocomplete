@@ -47,8 +47,7 @@ body {
 
         var url = "http://suggest.taobao.com/sug";
 
-        var a = new autocomplete({
-            id : "#J_Search",
+        var a = new autocomplete("#J_Search",{
             ajaxUrl: url,
             wrapEl: '.suggest-wrap',
             listEl: '.suggest',
@@ -60,6 +59,8 @@ body {
             additionClass: ".addition"
             //clearHistory: clear
         })
+
+        console.log(a);
     })
 </script>
 </body>
